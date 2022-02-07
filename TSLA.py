@@ -16,6 +16,7 @@ x = "กำลังทำงาน"
 p = "กำลังบันทึก"
 y = "หยุดทำงาน"
 s = "บันทึกสำเร็จ"
+n="ยังไม่เปิดใช้งาน"
 wait_time = 1
 filename = 'ONE-UGG-RA'
 #เชื่อมต่อกับชีท
@@ -63,6 +64,7 @@ def addtitle() :
 
     worksheet_Test.update_cells(title_list)
     print("Add Title Succeed")
+    charktitle()
 
 def adddatas() :
   worksheet_Test = client.open('ONE-UGG-RA').worksheet('DATA')
@@ -90,6 +92,49 @@ def adddatas() :
     print("Add Data Succeed")
   else :
     print("ข้อมูลของวันนี้บันทึกไปแล้วนะ")
+
+def charktitle() :
+  worksheet_Test = client.open('ONE-UGG-RA').worksheet('DATA')
+  title = worksheet_Test.row_values(1)
+  newdata = worksheet_Test.row_values(2)
+  namekey = 'Name', 'Open',	'High',	'Low',	'Close',	'Adj Close',	'Volume'
+  if len(title) < 1 :
+    while (len(title)) != (len(newdata)):
+      if (len(title)) < (len(newdata)) :
+        if title[-1].lower() == namekey[0].lower() :
+          for i in range (1,len(namekey)) :
+            title.append(namekey[i])
+        elif title[-1].lower() == namekey[1].lower() :
+          for i in range (2,len(namekey)) :
+            title.append(namekey[i])
+        elif title[-1].lower() == namekey[2].lower() :
+          for i in range (3,len(namekey)) :
+              title.append(namekey[i])
+        elif title[-1].lower() == namekey[3].lower() :
+          for i in range (4,len(namekey)) :
+            title.append(namekey[i])
+        elif title[-1].lower() == namekey[4].lower() :
+          for i in range (5,len(namekey)) :
+            title.append(namekey[i])
+        elif title[-1].lower() == namekey[5].lower() :
+          for i in range (6,len(namekey)) :
+            title.append(namekey[i])
+        elif title[-1].lower() == namekey[6].lower() :
+          for i in range (len(namekey)) :
+            title.append(namekey[i])
+        else :
+          title.pop(-1)
+          title.append('')
+      if (len(newdata)) < (len(title)) :
+        title.pop(-1)
+        title.append('')
+      title_list = worksheet_Test.range(1,1,1,(len(title)))
+      for i in range (len(title_list)) :
+        title_list[i].value = title[i]
+      worksheet_Test.update_cells(title_list)
+      title = worksheet_Test.row_values(1)
+  print("Chark Title Succeed")
+
 def startProgram() :
     doit = True
     btRun["state"] = "disabled"
@@ -99,9 +144,9 @@ def startProgram() :
         lbsh["text"] = chacktime
         timenow = (str(datetime.datetime.now().strftime("%X")))
         if timenow == chacktime and doit == True :
-            lb2["text"] = p
             addtitle()
             adddatas()
+            charktitle()
             doit = False
             lb2["text"] = s
             sleep(10)
@@ -121,7 +166,15 @@ def startProgram() :
             print('Timenow :' + timenow)
             print('Chacktime :' + chacktime)
             sleep(wait_time)
-   
+def resave():
+        lb2["text"] = p
+        addtitle()
+        adddatas()
+        charktitle()
+        lb2["text"] = n
+        msg="บันทึกเรียบร้อย"
+        messagebox.showinfo("บันทึกเรียบร้อย",msg)
+
 def stopProgram():
     lb2["text"] = y
     btRun["state"] = "normal"
@@ -172,8 +225,13 @@ def openNewWindow():
     BS.config(font=("Tahoma", 25))
 
 def runThread():
-
+    
     x = threading.Thread(target=startProgram)
+    x.start()
+
+def rerunThread():
+    
+    x = threading.Thread(target=resave)
     x.start()
 
 def _select_date_time():
@@ -285,8 +343,12 @@ btStop = tk.Button(master=window, text="stop", command=stopProgram)
 btStop.grid(row=5, column=0, padx=(250,20), pady=(5,20))
 btStop.config(font=("Tahoma", 25), width=10)
 
-btn = Button(master=window,text ="เพิ่มชื่อหุ้นที่ต้องการบันทึก",command = openNewWindow)
+btn = Button(master=window,text ="กรณีข้อมูลไม่เข้า",command = rerunThread)
 btn.grid(row=6, column=0, padx=(20,5), pady=(5,20))
+btn.config(font=("Tahoma",15))
+
+btn = Button(master=window,text ="เพิ่มชื่อหุ้นที่ต้องการบันทึก",command = openNewWindow)
+btn.grid(row=7, column=0, padx=(20,5), pady=(5,20))
 btn.config(font=("Tahoma",15))
 
 digital_clock()
