@@ -63,7 +63,6 @@ def addtitle() :
 
     worksheet_Test.update_cells(title_list)
     print("Add Title Succeed")
-    charktitle()
 
 def adddatas() :
   worksheet_Test = client.open('ONE-UGG-RA').worksheet('DATA')
@@ -91,79 +90,6 @@ def adddatas() :
     print("Add Data Succeed")
   else :
     print("ข้อมูลของวันนี้บันทึกไปแล้วนะ")
-
-def charktitle() :
-  worksheet_Test = client.open('ONE-UGG-RA').worksheet('DATA')
-  title = worksheet_Test.row_values(1)
-  newdata = worksheet_Test.row_values(2)
-  namekey = 'Name', 'Open',	'High',	'Low',	'Close',	'Adj Close',	'Volume'
-  if len(title) < 1 :
-    while (len(title)) != (len(newdata)):
-      if (len(title)) < (len(newdata)) :
-        if title[-1].lower() == namekey[0].lower() :
-          for i in range (1,len(namekey)) :
-            title.append(namekey[i])
-        elif title[-1].lower() == namekey[1].lower() :
-          for i in range (2,len(namekey)) :
-            title.append(namekey[i])
-        elif title[-1].lower() == namekey[2].lower() :
-          for i in range (3,len(namekey)) :
-              title.append(namekey[i])
-        elif title[-1].lower() == namekey[3].lower() :
-          for i in range (4,len(namekey)) :
-            title.append(namekey[i])
-        elif title[-1].lower() == namekey[4].lower() :
-          for i in range (5,len(namekey)) :
-            title.append(namekey[i])
-        elif title[-1].lower() == namekey[5].lower() :
-          for i in range (6,len(namekey)) :
-            title.append(namekey[i])
-        elif title[-1].lower() == namekey[6].lower() :
-          for i in range (len(namekey)) :
-            title.append(namekey[i])
-        else :
-          title.pop(-1)
-          title.append('')
-      if (len(newdata)) < (len(title)) :
-        title.pop(-1)
-        title.append('')
-      title_list = worksheet_Test.range(1,1,1,(len(title)))
-      for i in range (len(title_list)) :
-        title_list[i].value = title[i]
-      worksheet_Test.update_cells(title_list)
-      title = worksheet_Test.row_values(1)
-  print("Chark Title Succeed")
-
-# def ourtitle() :
-#   worksheet_Main = client.open('ONE-UGG-RA').worksheet('ONE-UGG-RA')
-#   worksheet_Name = client.open('ONE-UGG-RA').worksheet('stock name')
-#   havecol = len(worksheet_Main.row_values(1))
-#   namekey = ['Name', 'ราคา',	'%ส่วนต่าง',	'%ผล']
-#   if havecol == 0 or worksheet_Main.cell(1,1).value == '' or worksheet_Main.cell(1,1).value.lower() != 'date' :
-#     worksheet_Main.update_cell(1,1,'Date')
-#     havecol = len(worksheet_Main.row_values(1))
-
-#   name = worksheet_Name.row_values(1)
-#   needcol = (len(name)*len(namekey))+1
-#   if havecol == needcol :
-#     print('มี Title อยู่แล้ว')
-
-#   else :
-#     if worksheet_Main.col_count <= needcol :
-#       worksheet_Main.add_cols(needcol-worksheet_Main.col_count)
-#       worksheet_Main = client.open('ONE-UGG-RA').worksheet('ONE-UGG-RA')
-
-#     worksheet_Main = client.open('ONE-UGG-RA').worksheet('ONE-UGG-RA')
-#     nameintitle = worksheet_Main.row_values(1)
-#     for i in range (len(name)) :
-#       for j in range (len(namekey)) :
-#         nameintitle.append(namekey[j])
-
-#     title_list = worksheet_Main.range(1,1,1,needcol)
-#     for i in range (len(title_list)) :
-#       title_list[i].value = nameintitle[i]
-
-#     worksheet_Main.update_cells(title_list)
 def startProgram() :
     doit = True
     btRun["state"] = "disabled"
@@ -173,34 +99,9 @@ def startProgram() :
         lbsh["text"] = chacktime
         timenow = (str(datetime.datetime.now().strftime("%X")))
         if timenow == chacktime and doit == True :
+            lb2["text"] = p
             addtitle()
             adddatas()
-            charktitle()
-            # ourtitle()
-            # worksheet_Main = client.open('ONE-UGG-RA').worksheet('ONE-UGG-RA')
-            # worksheet_Name = client.open('ONE-UGG-RA').worksheet('stock name')
-            # if worksheet_Main.cell(2,1).value != str(datetime.datetime.now())[0:10] :
-            #     name = worksheet_Name.row_values(1)
-            #     namekey = ['Name', 'ราคา','%ผล']
-            #     needcol = (len(name)*len(namekey))+1
-            #     adddata = [str(datetime.datetime.now())[0:10]]
-            #     if worksheet_Main.col_count <= needcol :
-            #         worksheet_Main.add_cols(needcol-worksheet_Main.col_count)
-            #         worksheet_Main = client.open('ONE-UGG-RA').worksheet('ONE-UGG-RA')
-
-            #     for names in name :
-            #         comm = yf.download(tickers = names,period='5d')
-            #         d1 = float(comm['Close'].values[-1])
-            #         d2 = float(comm['Close'].values[-2])
-            #         d3 = float((d1-d2)*100/d2)
-            #         adddata.append(str(names))
-            #         adddata.append(d1)
-            #         adddata.append(d3)
-            #         sleep(1)
-            #         # info = worksheet_BGM.row_values(worksheet_BGM.find(names).row)
-            #         # adddata.append(d3*float(info[1]))
-            #         print("add :: " + names)
-            #     worksheet_Main.insert_row(adddata,2)
             doit = False
             lb2["text"] = s
             sleep(10)
@@ -271,7 +172,7 @@ def openNewWindow():
     BS.config(font=("Tahoma", 25))
 
 def runThread():
-    
+
     x = threading.Thread(target=startProgram)
     x.start()
 
