@@ -141,22 +141,15 @@ def startProgram() :
     while btRun["state"] == "disabled":
         lb2["text"] = x
         lbsh["text"] = chacktime
-        worksheet_Test = client.open('ONE-UGG-RA').worksheet('DATA')
+#         worksheet_Test = client.open('ONE-UGG-RA').worksheet('DATA')
         timenow = (str(datetime.datetime.now().strftime("%X")))
         if timenow == chacktime and doit == True :
-            addtitle()
-            adddatas()
-            charktitle()
-            if worksheet_Test.cell(2,1).value != str(datetime.datetime.now())[0:10] :
-                addtitle()
-                adddatas()
-                charktitle()
-            else:
-                print("บันทึกแล้ว")
-                doit = False
-                lb2["text"] = s
-                sleep(10)
-
+		addtitle()
+		adddatas()
+		charktitle()
+		doit = False
+		lb2["text"] = s
+		sleep(10)
         elif timenow == chacktime and doit == False :
             sleep(wait_time)
 
