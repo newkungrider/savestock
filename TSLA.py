@@ -144,13 +144,13 @@ def startProgram() :
 #         worksheet_Test = client.open('ONE-UGG-RA').worksheet('DATA')
         timenow = (str(datetime.datetime.now().strftime("%X")))
         if timenow == chacktime and doit == True :
-		addtitle()
-		adddatas()
-		charktitle()
-		savedata()
-		doit = False
-		lb2["text"] = s
-		sleep(10)
+              addtitle()
+              adddatas()
+              charktitle()
+              savedata()
+              doit = False
+              lb2["text"] = s
+              sleep(10)
         elif timenow == chacktime and doit == False :
             sleep(wait_time)
 
@@ -173,14 +173,14 @@ def savedata() :
     info = worksheet_BGM.row_values(5)
     worksheet_Main.insert_row(info,3)
 def resave():
-        lb2["text"] = p
-        addtitle()
-        adddatas()
-        charktitle()
-	savedata()
-        lb2["text"] = n
-        msg="บันทึกเรียบร้อย"
-        messagebox.showinfo("บันทึกเรียบร้อย",msg)
+      lb2["text"] = p
+      addtitle()
+      adddatas()
+      charktitle()
+      savedata()
+      lb2["text"] = n
+      msg="บันทึกเรียบร้อย"
+      messagebox.showinfo("บันทึกเรียบร้อย",msg)
 
 def stopProgram():
     lb2["text"] = y
