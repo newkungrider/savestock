@@ -148,6 +148,7 @@ def startProgram() :
               adddatas()
               charktitle()
               savedata()
+              savedatanav()
               doit = False
               lb2["text"] = s
               sleep(10)
@@ -172,12 +173,18 @@ def savedata() :
     worksheet_BGM = client.open('ONE-UGG-RA').worksheet('MCF')
     info = worksheet_BGM.row_values(5)
     worksheet_Main.insert_row(info,3)
+def savedatanav() :
+    worksheet_Main = client.open('ONE-UGG-RA').worksheet('backupnav')
+    worksheet_BGM = client.open('ONE-UGG-RA').worksheet('MCF')
+    info = worksheet_BGM.row_values(38)
+    worksheet_Main.insert_row(info,2)
 def resave():
       lb2["text"] = p
       addtitle()
       adddatas()
       charktitle()
       savedata()
+      savedatanav()
       lb2["text"] = n
       msg="บันทึกเรียบร้อย"
       messagebox.showinfo("บันทึกเรียบร้อย",msg)
